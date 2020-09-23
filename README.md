@@ -195,4 +195,45 @@ Finally, launch each node separately and watch them mining and signing blocks.
 ~/testnet$ geth --datadir node2/ --syncmode 'full' --port 30312 --rpc --rpcaddr 'localhost' --rpcport 8502 --rpcapi 'personal,db,eth,net,web3,txpool,miner' --bootnodes 'enode://40f023cfab618e8d2229bc31b05db7c7df003c451bad2898d728073aa113fde527b6b5b278637127da0dcd8d415a91ae0c829f10689bb75f72f89c46e96a5625@127.0.0.1:30310' --networkid 1234 --gasprice '1' -unlock '0x665C5b7e68B842c3DaB1739299946C113F217e87' --password node2/password.txt --mine --allow-insecure-unlock
 ```
 
+### Submit a transaction
+
+We want to send ether from one account to another. First we have to connect to one node's console to interact with its APIs.
+
+```shell
+~/testnet$ geth attach node1/geth.ipc 
+Welcome to the Geth JavaScript console!
+
+instance: Geth/v1.9.12-stable-b6f1c8dc/linux-amd64/go1.13.8
+coinbase: 0x3df228eff9882f7c58e6a9394914f51c3496cd8c
+at block: 145 (Wed Sep 23 2020 23:52:19 GMT+0100 (CET))
+ datadir: /home/arsalen/Desktop/draft/proof-of-authority/testnet/node1
+ modules: admin:1.0 clique:1.0 debug:1.0 eth:1.0 miner:1.0 net:1.0 personal:1.0 rpc:1.0 txpool:1.0 web3:1.0
+```
+
+Now we send ether to a random address through eth API, the result is a hash we will use to check the state of the transaction later.
+
+```shell
+> eth.sendTransaction({'from':eth.coinbase, 'to':'0x08a58f09194e403d02a1928a7bf78646cfc260b0', 'value':web3.toWei(1, 'ether')})
+"0xebd828c847773655ff39ec570c9bedc8622788844c351e1669701130d2bae72f"
+> eth.getTransactionReceipt("0xebd828c847773655ff39ec570c9bedc8622788844c351e1669701130d2bae72f")
+{
+  blockHash: "0xa803a5c199ae46a134f0626fea2fe0ac70de7da16a3c6f8c1e7dc9318f091ff8",
+  blockNumber: 170,
+  contractAddress: null,
+  cumulativeGasUsed: 21000,
+  from: "0x3df228eff9882f7c58e6a9394914f51c3496cd8c",
+  gasUsed: 21000,
+  logs: [],
+  logsBloom: "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+  status: "0x1",
+  to: "0x08a58f09194e403d02a1928a7bf78646cfc260b0",
+  transactionHash: "0xebd828c847773655ff39ec570c9bedc8622788844c351e1669701130d2bae72f",
+  transactionIndex: 0
+}
+> exit
+
+```
+
+`status: 0x1` means the transaction was successfully mined.
+
 **Disclaimer:** Addresses and keys used in this tutorial are only for development purposes.
