@@ -44,8 +44,8 @@ Your new account is locked with a password. Please give a password. Do not forge
 Password:
 Repeat password:
 Your new key was generated
-Public address of the key:   0x1C69fae5627BD000fb75eAe68c1F4a2EcC9d43ef
-Path of the secret key file: node1/keystore/UTC--2020-09-23T15-53-31.215856013Z--1c69fae5627bd000fb75eae68c1f4a2ecc9d43ef
+Public address of the key:   0x3df228efF9882F7c58e6a9394914F51C3496cD8C
+Path of the secret key file: node1/keystore/UTC--2020-09-23T15-53-31.215856013Z--3df228efF9882F7c58e6a9394914F51C3496cD8C
 - You can share your public address with anyone. Others need it to interact with you.
 - You must NEVER share the secret key with anyone! The key controls access to your funds!
 - You must BACKUP your key file! Without the key, it's impossible to access account funds!
@@ -58,8 +58,8 @@ Your new account is locked with a password. Please give a password. Do not forge
 Password:
 Repeat password:
 Your new key was generated
-Public address of the key:   0x280939A95620068A61B300B858138811133665F8
-Path of the secret key file: node2/keystore/UTC--2020-09-23T15-53-44.666476332Z--280939a95620068a61b300b858138811133665f8
+Public address of the key:   0x665C5b7e68B842c3DaB1739299946C113F217e87
+Path of the secret key file: node2/keystore/UTC--2020-09-23T15-53-44.666476332Z--665C5b7e68B842c3DaB1739299946C113F217e87
 - You can share your public address with anyone. Others need it to interact with you.
 - You must NEVER share the secret key with anyone! The key controls access to your funds!
 - You must BACKUP your key file! Without the key, it's impossible to access account funds!
@@ -69,8 +69,8 @@ Path of the secret key file: node2/keystore/UTC--2020-09-23T15-53-44.666476332Z-
 This creates the `keystore/` folder containing your account file, we will copy these two addresses from the terminal screen and save them in a text file. That will ease some copy-pasting job later on.
 
 ```shell
-testnet$ echo '1C69fae5627BD000fb75eAe68c1F4a2EcC9d43ef' >> accounts.txt
-testnet$ echo '280939A95620068A61B300B858138811133665F8' >> accounts.txt
+testnet$ echo '3df228efF9882F7c58e6a9394914F51C3496cD8C' >> accounts.txt
+testnet$ echo '665C5b7e68B842c3DaB1739299946C113F217e87' >> accounts.txt
 ```
 
 Same for passwords, this time we will save each in a file inside the respective node directory to ease some process for later on (such as unlocking your account)
@@ -121,12 +121,12 @@ Which consensus engine to use? (default = clique)
 How many seconds should blocks take? (default = 15)
 >
 Which accounts are allowed to seal? (mandatory at least one)
-> 0x1C69fae5627BD000fb75eAe68c1F4a2EcC9d43ef
-> 0x280939A95620068A61B300B858138811133665F8
+> 0x3df228efF9882F7c58e6a9394914F51C3496cD8C
+> 0x665C5b7e68B842c3DaB1739299946C113F217e87
 > 0x
 Which accounts should be pre-funded? (advisable at least one)
-> 0x1C69fae5627BD000fb75eAe68c1F4a2EcC9d43ef
-> 0x280939A95620068A61B300B858138811133665F8
+> 0x3df228efF9882F7c58e6a9394914F51C3496cD8C
+> 0x665C5b7e68B842c3DaB1739299946C113F217e87
 > 0x
 Should the precompile-addresses (0x1 .. 0xff) be pre-funded with 1 wei? (advisable yes)
 > yes
@@ -177,7 +177,7 @@ A bootnode only purpose is to helping nodes discovering each others (remember, t
 testnet$ bootnode -genkey boot.key
 
 testnet$ bootnode -nodekey boot.key -verbosity 9 -addr :30310
-enode://a5a982213cfcf017c536af18b27d69893b90027916799779656374de84f5d877c5c0580bde487f50d8540cce93c5691e1a8db7474549e89adabcad104f60cb70@127.0.0.1:0?discport=30310
+enode://40f023cfab618e8d2229bc31b05db7c7df003c451bad2898d728073aa113fde527b6b5b278637127da0dcd8d415a91ae0c829f10689bb75f72f89c46e96a5625@127.0.0.1:0?discport=30310
 Note: you're using cmd/bootnode, a developer tool.
 We recommend using a regular node as bootstrap node for production deployments.
 INFO [09-23|16:25:09.248] New local node record                    seq=1 id=5be54f9236b5e715 ip=<nil> udp=0 tcp=0
@@ -188,11 +188,11 @@ INFO [09-23|16:25:09.248] New local node record                    seq=1 id=5be5
 Finally, launch each node separately and watch them mining and signing blocks.
 
 ```shell
-testnet$ geth --datadir node1/ --syncmode 'full' --port 30311 --rpc --rpcaddr 'localhost' --rpcport 8501 --rpcapi 'personal,db,eth,net,web3,txpool,miner' --bootnodes 'enode://a5a982213cfcf017c536af18b27d69893b90027916799779656374de84f5d877c5c0580bde487f50d8540cce93c5691e1a8db7474549e89adabcad104f60cb70@127.0.0.1:30310' --networkid 1234 --gasprice '1' -unlock '0x1C69fae5627BD000fb75eAe68c1F4a2EcC9d43ef' --password node1/password.txt --mine --allow-insecure-unlock
+testnet$ geth --datadir node1/ --syncmode 'full' --port 30311 --rpc --rpcaddr 'localhost' --rpcport 8501 --rpcapi 'personal,db,eth,net,web3,txpool,miner' --bootnodes 'enode://40f023cfab618e8d2229bc31b05db7c7df003c451bad2898d728073aa113fde527b6b5b278637127da0dcd8d415a91ae0c829f10689bb75f72f89c46e96a5625@127.0.0.1:30310' --networkid 1234 --gasprice '1' -unlock '0x3df228efF9882F7c58e6a9394914F51C3496cD8C' --password node1/password.txt --mine --allow-insecure-unlock
 ```
 
 ```shell
-testnet$ geth --datadir node2/ --syncmode 'full' --port 30312 --rpc --rpcaddr 'localhost' --rpcport 8502 --rpcapi 'personal,db,eth,net,web3,txpool,miner' --bootnodes 'enode://a5a982213cfcf017c536af18b27d69893b90027916799779656374de84f5d877c5c0580bde487f50d8540cce93c5691e1a8db7474549e89adabcad104f60cb70@127.0.0.1:30310' --networkid 1234 --gasprice '1' -unlock '0x280939A95620068A61B300B858138811133665F8' --password node2/password.txt --mine --allow-insecure-unlock
+testnet$ geth --datadir node2/ --syncmode 'full' --port 30312 --rpc --rpcaddr 'localhost' --rpcport 8502 --rpcapi 'personal,db,eth,net,web3,txpool,miner' --bootnodes 'enode://40f023cfab618e8d2229bc31b05db7c7df003c451bad2898d728073aa113fde527b6b5b278637127da0dcd8d415a91ae0c829f10689bb75f72f89c46e96a5625@127.0.0.1:30310' --networkid 1234 --gasprice '1' -unlock '0x665C5b7e68B842c3DaB1739299946C113F217e87' --password node2/password.txt --mine --allow-insecure-unlock
 ```
 
 **Disclaimer: ** Addresses and keys used in this tutorial are only for development purposes.

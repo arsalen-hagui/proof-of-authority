@@ -1,0 +1,4 @@
+testnet/node1/geth/
+testnet/node2/geth/
+
+**/*.ipc
