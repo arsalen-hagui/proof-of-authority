@@ -195,7 +195,7 @@ Finally, launch each node separately and watch them mining and signing blocks.
 ~/testnet$ geth --datadir node2/ --syncmode 'full' --port 30312 --rpc --rpcaddr 'localhost' --rpcport 8502 --rpcapi 'personal,db,eth,net,web3,txpool,miner' --bootnodes 'enode://40f023cfab618e8d2229bc31b05db7c7df003c451bad2898d728073aa113fde527b6b5b278637127da0dcd8d415a91ae0c829f10689bb75f72f89c46e96a5625@127.0.0.1:30310' --networkid 1234 --gasprice '1' -unlock '0x665C5b7e68B842c3DaB1739299946C113F217e87' --password node2/password.txt --mine --allow-insecure-unlock
 ```
 
-### Submit a transaction
+## Submit a transaction
 
 We want to send ether from one account to another. First we have to connect to one node's console to interact with its APIs.
 
