@@ -8,10 +8,10 @@
 
 Before you can build this project, please install [Geth](https://geth.ethereum.org/) on a [Ubuntu 18.04 LTS](https://releases.ubuntu.com/18.04.5/) (this tuto was done in a fresh virtual machine)
 ```shell
-$ sudo add-apt-repository -y ppa:ethereum/ethereum
-$ sudo apt-get update
-$ sudo apt-get install ethereum
-$ geth version
+~$ sudo add-apt-repository -y ppa:ethereum/ethereum
+~$ sudo apt-get update
+~$ sudo apt-get install ethereum
+~$ geth version
 Geth
 Version: 1.9.21-stable
 Git Commit: 0287d54847d3297f3ced62cd83a4c95ccbe0045b
@@ -27,9 +27,9 @@ GOROOT=go
 
 First create the folder for the network configurations, then two folders for each node.
 ```shell
-$ mkdir testnet
-$ cd testnet
-testnet$ mkdir node1 node2
+~$ mkdir testnet
+~$ cd testnet
+~/testnet$ mkdir node1 node2
 ```
 
 ## Create accounts
@@ -37,7 +37,7 @@ testnet$ mkdir node1 node2
 Now as the workspace is ready, we will create two accounts (also known as wallets) that hold a private-public key pair that are required for interacting with any blockchain.
 
 ```shell
-testnet$ geth --datadir node1/ account new
+~/testnet$ geth --datadir node1/ account new
 INFO [09-23|15:53:10.141] Maximum peer count                       ETH=50 LES=0 total=50
 INFO [09-23|15:53:10.143] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
 Your new account is locked with a password. Please give a password. Do not forget this password.
@@ -51,7 +51,7 @@ Path of the secret key file: node1/keystore/UTC--2020-09-23T15-53-31.215856013Z-
 - You must BACKUP your key file! Without the key, it's impossible to access account funds!
 - You must REMEMBER your password! Without the password, it's impossible to decrypt the key!
 
-testnet$ geth --datadir node2/ account new
+~/testnet$ geth --datadir node2/ account new
 INFO [09-23|15:53:40.341] Maximum peer count                       ETH=50 LES=0 total=50
 INFO [09-23|15:53:40.343] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
 Your new account is locked with a password. Please give a password. Do not forget this password.
@@ -69,15 +69,15 @@ Path of the secret key file: node2/keystore/UTC--2020-09-23T15-53-44.666476332Z-
 This creates the `keystore/` folder containing your account file, we will copy these two addresses from the terminal screen and save them in a text file. That will ease some copy-pasting job later on.
 
 ```shell
-testnet$ echo '3df228efF9882F7c58e6a9394914F51C3496cD8C' >> accounts.txt
-testnet$ echo '665C5b7e68B842c3DaB1739299946C113F217e87' >> accounts.txt
+~/testnet$ echo '3df228efF9882F7c58e6a9394914F51C3496cD8C' >> accounts.txt
+~/testnet$ echo '665C5b7e68B842c3DaB1739299946C113F217e87' >> accounts.txt
 ```
 
 Same for passwords, this time we will save each in a file inside the respective node directory to ease some process for later on (such as unlocking your account)
 
 ```shell
-testnet$ echo 'pwd1' > node1/password.txt
-testnet$ echo 'pwd2' > node2/password.txt
+~/testnet$ echo 'pwd1' > node1/password.txt
+~/testnet$ echo 'pwd2' > node2/password.txt
 ```
 
 ## Configure Genesis block
@@ -87,7 +87,7 @@ A genesis file is the file used to initialize the blockchain. The very first blo
 Geth comes with a bunch of exectuables such as Puppeth which removes the pain of creating a genesis file from scratch (and does much more).
 
 ```shell
-testnet$ puppeth
+~/testnet$ puppeth
 +-----------------------------------------------------------+
 | Welcome to puppeth, your Ethereum private network manager |
 |                                                           |
@@ -163,8 +163,8 @@ What would you like to do? (default = stats)
 Now that we have the genesis.json file, let’s forge the genesis block ! Each node MUST be initialize with the SAME genesis file.
 
 ```shell
-testnet$ geth --datadir node1/ init testnet.json
-testnet$ geth --datadir node2/ init testnet.json
+~/testnet$ geth --datadir node1/ init testnet.json
+~/testnet$ geth --datadir node2/ init testnet.json
 ```
 
 ## Start nodes
@@ -174,9 +174,9 @@ testnet$ geth --datadir node2/ init testnet.json
 A bootnode only purpose is to helping nodes discovering each others (remember, the Ethereum blockchain is a peer-to-peer network). Nodes could have dynamic IP, being turned off, and on again. The bootnode is usually ran on a static IP and thus acts like a pub where nodes know they will find their mates.
 
 ```shell
-testnet$ bootnode -genkey boot.key
+~/testnet$ bootnode -genkey boot.key
 
-testnet$ bootnode -nodekey boot.key -verbosity 9 -addr :30310
+~/testnet$ bootnode -nodekey boot.key -verbosity 9 -addr :30310
 enode://40f023cfab618e8d2229bc31b05db7c7df003c451bad2898d728073aa113fde527b6b5b278637127da0dcd8d415a91ae0c829f10689bb75f72f89c46e96a5625@127.0.0.1:0?discport=30310
 Note: you're using cmd/bootnode, a developer tool.
 We recommend using a regular node as bootstrap node for production deployments.
@@ -188,11 +188,11 @@ INFO [09-23|16:25:09.248] New local node record                    seq=1 id=5be5
 Finally, launch each node separately and watch them mining and signing blocks.
 
 ```shell
-testnet$ geth --datadir node1/ --syncmode 'full' --port 30311 --rpc --rpcaddr 'localhost' --rpcport 8501 --rpcapi 'personal,db,eth,net,web3,txpool,miner' --bootnodes 'enode://40f023cfab618e8d2229bc31b05db7c7df003c451bad2898d728073aa113fde527b6b5b278637127da0dcd8d415a91ae0c829f10689bb75f72f89c46e96a5625@127.0.0.1:30310' --networkid 1234 --gasprice '1' -unlock '0x3df228efF9882F7c58e6a9394914F51C3496cD8C' --password node1/password.txt --mine --allow-insecure-unlock
+~/testnet$ geth --datadir node1/ --syncmode 'full' --port 30311 --rpc --rpcaddr 'localhost' --rpcport 8501 --rpcapi 'personal,db,eth,net,web3,txpool,miner' --bootnodes 'enode://40f023cfab618e8d2229bc31b05db7c7df003c451bad2898d728073aa113fde527b6b5b278637127da0dcd8d415a91ae0c829f10689bb75f72f89c46e96a5625@127.0.0.1:30310' --networkid 1234 --gasprice '1' -unlock '0x3df228efF9882F7c58e6a9394914F51C3496cD8C' --password node1/password.txt --mine --allow-insecure-unlock
 ```
 
 ```shell
-testnet$ geth --datadir node2/ --syncmode 'full' --port 30312 --rpc --rpcaddr 'localhost' --rpcport 8502 --rpcapi 'personal,db,eth,net,web3,txpool,miner' --bootnodes 'enode://40f023cfab618e8d2229bc31b05db7c7df003c451bad2898d728073aa113fde527b6b5b278637127da0dcd8d415a91ae0c829f10689bb75f72f89c46e96a5625@127.0.0.1:30310' --networkid 1234 --gasprice '1' -unlock '0x665C5b7e68B842c3DaB1739299946C113F217e87' --password node2/password.txt --mine --allow-insecure-unlock
+~/testnet$ geth --datadir node2/ --syncmode 'full' --port 30312 --rpc --rpcaddr 'localhost' --rpcport 8502 --rpcapi 'personal,db,eth,net,web3,txpool,miner' --bootnodes 'enode://40f023cfab618e8d2229bc31b05db7c7df003c451bad2898d728073aa113fde527b6b5b278637127da0dcd8d415a91ae0c829f10689bb75f72f89c46e96a5625@127.0.0.1:30310' --networkid 1234 --gasprice '1' -unlock '0x665C5b7e68B842c3DaB1739299946C113F217e87' --password node2/password.txt --mine --allow-insecure-unlock
 ```
 
-**Disclaimer: ** Addresses and keys used in this tutorial are only for development purposes.
+**Disclaimer:** Addresses and keys used in this tutorial are only for development purposes.
